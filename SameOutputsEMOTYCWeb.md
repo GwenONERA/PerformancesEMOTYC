@@ -1,4 +1,16 @@
 
+Dans tout ce qui suit, le modèle "TextToKids/CamemBERT-base-EmoTextToKids" sera appelé EMOTYC.
+
+Les créateurs de ce modèle ont conçu une interface web depuis laquelle il est utilisable, en principe, dans des conditions optimales.
+Les créateurs de ce modèle ont également déposé les poids sur HuggingFace.
+Malheureusement, il n'y a pas de documentation sur la pipeline utilisée derrière le site web, ce notebook vise à reproduire les outputs du modèle web avec le modèle local avec différentes techniques.
+
+Il se dégage deux résultats principaux :
+- Premier résultat : a priori, le site web injecte chaque phrase dans un template. Le modèle a été entraîné avec un tel template et on peut supposer que cela améliore ses performances. Même si EMOTYC a été entraîné avec des triplets de phrases (previous_sentence, target_sentence, next_sentence), le site semble laisser l'encas de `previous_sentence` et de `next_sentence` vides.
+  
+- Second résultat : le template gagnant dans le premier script python est  "bca_v1":   lambda s: f"before: {EOS}current: {s}{EOS}after: {EOS}", et il permet, avec le petit jeu de données utilisé, de reproduire 95 % des outputs d'EMOTYC.
+
+
 ```python
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from IPython.display import clear_output
@@ -1401,7 +1413,7 @@ all_ok = all(
 print(f"  {'✅ 101/101 MATCH' if all_ok else '❌ Écart détecté'}")
 ```
 ```output
-Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Données : 101 phrases × 19 labels = 1919 ules
+Données : 101 phrases × 19 labels = 1919 ules
 
 ═════════════════════════════════════════════════════════════════
  PHASE 1 · Templates avec phrases voisines comme contexte
