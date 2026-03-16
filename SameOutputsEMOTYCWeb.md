@@ -8,8 +8,14 @@ Malheureusement, il n'y a pas de documentation sur la pipeline utilisée derriè
 Il se dégage deux résultats principaux :
 - Premier résultat : a priori, le site web injecte chaque phrase dans un template. Le modèle a été entraîné avec un tel template et on peut supposer que cela améliore ses performances. Même si EMOTYC a été entraîné avec des triplets de phrases (previous_sentence, target_sentence, next_sentence), le site semble laisser l'encas de `previous_sentence` et de `next_sentence` vides.
   
-- Second résultat : le template gagnant dans le premier script python est  "bca_v1":   lambda s: f"before: {EOS}current: {s}{EOS}after: {EOS}", et il permet, avec le petit jeu de données utilisé, de reproduire 95 % des outputs d'EMOTYC.
+- Second résultat : le template gagnant dans le premier script python est :
 
+```python
+"bca_v1":   lambda s: f"before: {EOS}current: {s}{EOS}after: {EOS}"
+```
+
+Les résultats sur le petit jeu de données utilisé ici suggèrent que ce template permet de reproduire 95,15 % des outputs d'EMOTYC.
+C'est assez cohérent avec le paper qui accompagne le modèle.
 
 ```python
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
