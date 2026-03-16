@@ -1,4 +1,4 @@
-cell
+
 ```python
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from IPython.display import clear_output
@@ -7,21 +7,19 @@ model = AutoModelForSequenceClassification.from_pretrained("TextToKids/CamemBERT
 tokenizer = AutoTokenizer.from_pretrained("camembert-base")
 clear_output()
 ```
-```output
 
-```
-cell
+
 ```python
 print(model.num_labels)
 ```
 ```output
 19
 ```
-cell
 
 
 
-cell
+
+
 ```python
 print(model.config)
 ```
@@ -100,7 +98,7 @@ CamembertConfig {
 }
 
 ```
-cell
+
 ```python
 model.classifier
 ```
@@ -111,7 +109,7 @@ CamembertClassificationHead(
   (out_proj): Linear(in_features=768, out_features=19, bias=True)
 )
 ```
-cell
+
 ```python
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
@@ -245,7 +243,7 @@ Top 5 des prédictions :
  - Base                           : 0.12%
  - Autre                          : 0.05%
 ```
-cell
+
 ```python
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -291,14 +289,14 @@ def predict_emotions(
 ```output
 
 ```
-cell
+
 ```python
 import pandas as pd
 df = pd.read_excel("processed_predictions.xlsx")
 ```
 
 
-cell
+
 ```python
 df.columns
 ```
@@ -310,7 +308,7 @@ Index(['document', 'sent_id', 'sentence', 'emo', 'emo_comportementale',
        'tristesse'],
       dtype='object')
 ```
-cell
+
 ```python
 import torch, numpy as np, pandas as pd
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
@@ -342,7 +340,7 @@ LABEL_COLS = [
 ]
 Y = df[LABEL_COLS].values.astype(int)                      # (101, 19)
 N, L = Y.shape
-print(f"Référence : {N} phrases × {L} labels = {N*L} cellules\n")
+print(f"Référence : {N} phrases × {L} labels = {N*L} ules\n")
 
 # ═══════════════════════════════════════════════════════════════
 #  2. FORMATS D'ENTRÉE CANDIDATS
@@ -445,7 +443,7 @@ for j in range(L):
 Y_hat  = (P >= thr).astype(int)
 row_ok = int((Y_hat == Y).all(axis=1).sum())
 print(f"\nLignes parfaitement reproduites : {row_ok} / {N}")
-print(f"Précision cellule par cellule  : "
+print(f"Précision ule par ule  : "
       f"{(Y_hat == Y).sum()} / {N*L}  "
       f"({(Y_hat == Y).mean():.4%})")
 
@@ -499,7 +497,7 @@ thresholds_dict = {LABEL_COLS[j]: float(FINAL_THRESHOLDS[j]) for j in range(L)}
 print(f"\n# Seuils à copier-coller :\nTHRESHOLDS = {thresholds_dict}")
 ```
 ```output
-Référence : 101 phrases × 19 labels = 1919 cellules
+Référence : 101 phrases × 19 labels = 1919 ules
 
   raw                   err@0.5= 222   err@opt= 191  /1919
   bca_eos_nospace       err@0.5= 140   err@opt=  93  /1919
@@ -534,7 +532,7 @@ Seuils optimaux par label :
   tristesse                  seuil = 0.01712704   ✗ 5 erreur(s)
 
 Lignes parfaitement reproduites : 53 / 101
-Précision cellule par cellule  : 1826 / 1919  (95.1537%)
+Précision ule par ule  : 1826 / 1919  (95.1537%)
 
 Lignes en erreur (48) :
   row   0  emo_suggeree            prédit=1  vrai=0  σ=0.07088140
@@ -729,7 +727,7 @@ LABELS = [
 ]
 Y = df[LABELS].values.astype(int)                       # (101, 19)
 N, K = Y.shape
-print(f"Données : {N} phrases × {K} labels = {N*K} cellules\n")
+print(f"Données : {N} phrases × {K} labels = {N*K} ules\n")
 
 # ── utilitaires ──
 def sigmoid(x):
@@ -903,7 +901,7 @@ Y_pred = classify_batch(X)
 n_err = int((Y_pred != Y).sum())
 n_ok  = int((Y_pred == Y).all(axis=1).sum())
 
-print(f"  Cellules correctes : {N*K - n_err} / {N*K}")
+print(f"  ules correctes : {N*K - n_err} / {N*K}")
 print(f"  Lignes parfaites   : {n_ok} / {N}")
 
 if n_err == 0:
@@ -1043,7 +1041,7 @@ print("═" * 62)
 ══════════════════════════════════════════════════════════════
  PHASE 4 · Validation
 ══════════════════════════════════════════════════════════════
-  Cellules correctes : 1919 / 1919
+  ules correctes : 1919 / 1919
   Lignes parfaites   : 101 / 101
 
   ✅ MATCH PARFAIT sur les 101 lignes !
@@ -1079,7 +1077,7 @@ print("═" * 62)
     davantage de données labelisées depuis le web est recommandé.
 ══════════════════════════════════════════════════════════════
 ```
-cell
+
 ```python
 import torch, numpy as np, pandas as pd
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
@@ -1111,7 +1109,7 @@ LABELS = [
 ]
 Y = df[LABELS].values.astype(int)  # (101, 19)
 K = len(LABELS)
-print(f"Données : {N} phrases × {K} labels = {N*K} cellules\n")tsli
+print(f"Données : {N} phrases × {K} labels = {N*K} ules\n")tsli
 
 def sigmoid(x):
     return 1.0 / (1.0 + np.exp(-np.clip(x, -500, 500)))
@@ -1309,7 +1307,7 @@ Y_pred = classify_batch(X)
 n_err = int((Y_pred != Y).sum())
 n_ok  = int((Y_pred == Y).all(axis=1).sum())
 
-print(f"  Cellules : {N*K - n_err} / {N*K}")
+print(f"  ules : {N*K - n_err} / {N*K}")
 print(f"  Lignes   : {n_ok} / {N}")
 
 if n_err == 0:
@@ -1403,7 +1401,7 @@ all_ok = all(
 print(f"  {'✅ 101/101 MATCH' if all_ok else '❌ Écart détecté'}")
 ```
 ```output
-Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Données : 101 phrases × 19 labels = 1919 cellules
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Données : 101 phrases × 19 labels = 1919 ules
 
 ═════════════════════════════════════════════════════════════════
  PHASE 1 · Templates avec phrases voisines comme contexte
@@ -1477,7 +1475,7 @@ Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Données : 101 phrases �
 ═════════════════════════════════════════════════════════════════
  PHASE 4 · Validation
 ═════════════════════════════════════════════════════════════════
-  Cellules : 1919 / 1919
+  ules : 1919 / 1919
   Lignes   : 101 / 101
 
   ✅ MATCH PARFAIT !
